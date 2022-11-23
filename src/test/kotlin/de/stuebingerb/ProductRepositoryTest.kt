@@ -3,28 +3,12 @@ package de.stuebingerb
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.koin.core.context.startKoin
-import org.koin.dsl.module
-import org.koin.test.inject
-import org.koin.test.junit5.AutoCloseKoinTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class ProductRepositoryTest : AutoCloseKoinTest() {
+class ProductRepositoryTest {
 
-    private val persistenceMock: ProductPersistence by inject()
-    private val repository: ProductRepository by inject()
-
-    @BeforeTest
-    fun setup() {
-        startKoin {
-            modules(
-                module {
-                    single { ProductRepository() }
-                    single { mockk<ProductPersistence>() }
-                })
-        }
-    }
+    private val persistenceMock: ProductPersistence = mockk()
+    private val repository: ProductRepository = ProductRepository(persistenceMock)
 
     @Test
     fun test() {

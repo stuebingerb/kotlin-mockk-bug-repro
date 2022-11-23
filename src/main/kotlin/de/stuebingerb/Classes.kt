@@ -1,22 +1,15 @@
 package de.stuebingerb
 
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-import kotlin.reflect.KProperty1
-
-abstract class AbstractPersistence<T, U>(
-    val idProperty: KProperty1<T, U>
-) : KoinComponent {
+abstract class AbstractPersistence<T, U> {
 
     open suspend fun fetch(identifier: U): T? = null
 }
 
 data class Product(val productId: String)
 
-class ProductPersistence : AbstractPersistence<Product, String>(Product::productId)
+class ProductPersistence : AbstractPersistence<Product, String>()
 
-class ProductRepository : KoinComponent {
-    private val productPersistence: ProductPersistence = get()
+class ProductRepository(private val productPersistence: ProductPersistence) {
 
     suspend fun load(productId: String) = productPersistence.fetch(productId)
 }
