@@ -4,6 +4,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ProductRepositoryTest {
 
@@ -12,11 +13,12 @@ class ProductRepositoryTest {
 
     @Test
     fun test() {
+        val expected = Product("foo")
         coEvery {
             persistenceMock.fetch(any())
-        } returns null
+        } returns expected
         runBlocking {
-            repository.load("foo")
+            assertEquals(expected, repository.load("foo"))
         }
     }
 }
