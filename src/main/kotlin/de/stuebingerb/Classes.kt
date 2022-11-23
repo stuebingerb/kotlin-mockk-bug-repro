@@ -7,9 +7,8 @@ import kotlin.reflect.KProperty1
 abstract class AbstractPersistence<T, U>(
     val idProperty: KProperty1<T, U>
 ) : KoinComponent {
-    protected open suspend fun fromDocument(doc: U): T = doc as T
 
-    suspend fun fetch(identifier: U): T? = fromDocument(identifier)
+    open suspend fun fetch(identifier: U): T? = null
 }
 
 data class Product(val productId: String)
